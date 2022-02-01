@@ -39,10 +39,9 @@ public class Catalogue {
     }
 
     public void sortByBrand() {
-        /*Comparator<Car> byBrand =(Car b1 , Car b2) -> b1.getBrand().compareTo(b2.getBrand());
-        list.sort(byBrand);*/
+        Comparator<Car> byBrand =(Car b1 , Car b2) -> b1.getBrand().compareTo(b2.getBrand());
+        list.sort(byBrand);
 
-        Collections.sort(list);
     }
 
     public void sortByCarType() {

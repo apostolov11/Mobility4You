@@ -1,6 +1,9 @@
 package com.company.gui;
 
 import com.company.Catalogue.Catalogue;
+import com.company.entity.ElectricCar;
+import com.company.entity.GasCar;
+import com.company.entity.HybridCar;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,6 +35,10 @@ public class MyFrame extends JFrame {
 
     private JButton loadBtn = new JButton("Load");
     private JButton printBtn = new JButton("print");
+    private JButton addCarBtn = new JButton("Add Car");
+
+    private String[] options = {"Electric", "Gas", "Hybrid"};
+    private JComboBox<String> addCombo= new JComboBox<>(options);
 
     public MyFrame() {
         this.setVisible(true);
@@ -71,10 +78,12 @@ public class MyFrame extends JFrame {
         midPanel.add(fileTField);
         midPanel.add(loadBtn);
         midPanel.add(printBtn);
+        midPanel.add(addCombo);
+        midPanel.add(addCarBtn);
 
         loadBtn.addActionListener(new LoadAction());
         printBtn.addActionListener(new PrintAction());
-
+        addCarBtn.addActionListener(new AddCarAction());
     }
     class LoadAction implements ActionListener {
         @Override
@@ -91,4 +100,37 @@ public class MyFrame extends JFrame {
         }
     } // end printAction
     // Стигнал съм до тука, следва privateJbutton addCar
-}
+
+    private class AddCarAction implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String brand = brandTField.getText();
+            String model = modelTField.getText();
+            float engine = Float.parseFloat(engineTField.getText());
+            int power = Integer.parseInt(powerEngineTField.getText());
+            int capacity = Integer.parseInt(capacityTField.getText());
+            int price = Integer.parseInt(priceTField.getText());
+
+            switch (addCombo.getSelectedIndex()) {
+                case 0:	catalogue.addCar(new ElectricCar(brand, model, power, capacity, price));
+                    break;
+                case 1:	catalogue.addCar(new GasCar(brand, model, engine, power, price));
+                    break;
+                case 2:	catalogue.addCar(new HybridCar(brand, model, engine, power, capacity, price));
+                    break;
+            }//end switch
+            clearFields();
+        }
+
+        private void clearFields() {
+            brandTField.setText("");
+            modelTField.setText("");
+            engineTField.setText("");
+            powerEngineTField.setText("");
+            capacityTField.setText("");
+            priceTField.setText("");
+        }//end clearFields
+        }
+    }
+
